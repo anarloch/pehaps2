@@ -87,7 +87,7 @@ class Kohana_Database_PDO extends Database {
 		$this->_connection->exec('SET NAMES '.$this->quote($charset));
 	}
 
-	public function query($type, $sql, $as_object = FALSE, array $params = NULL)
+	public function query($type, $sql, $as_object)
 	{
 		// Make sure the database is connected
 		$this->_connection or $this->connect();
@@ -136,7 +136,7 @@ class Kohana_Database_PDO extends Database {
 			}
 			elseif (is_string($as_object))
 			{
-				$result->setFetchMode(PDO::FETCH_CLASS, $as_object, $params);
+				$result->setFetchMode(PDO::FETCH_CLASS, $as_object);
 			}
 			else
 			{
@@ -146,7 +146,7 @@ class Kohana_Database_PDO extends Database {
 			$result = $result->fetchAll();
 
 			// Return an iterator of results
-			return new Database_Result_Cached($result, $sql, $as_object, $params);
+			return new Database_Result_Cached($result, $sql, $as_object);
 		}
 		elseif ($type === Database::INSERT)
 		{
@@ -169,7 +169,7 @@ class Kohana_Database_PDO extends Database {
 			array(':method' => __FUNCTION__, ':class' => __CLASS__));
 	}
 
-	public function list_columns($table, $like = NULL, $add_prefix = TRUE)
+	public function list_columns($table, $like = NULL)
 	{
 		throw new Kohana_Exception('Database method :method is not supported by :class',
 			array(':method' => __FUNCTION__, ':class' => __CLASS__));

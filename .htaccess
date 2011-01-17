@@ -1,8 +1,9 @@
 # Turn on URL rewriting
+Options +FollowSymLinks
 RewriteEngine On
 
 # Installation directory
-RewriteBase /
+RewriteBase /pehaps2/
 
 # Protect hidden files from being viewed
 <Files .*>

@@ -150,7 +150,7 @@ class Kohana_Database_MySQL extends Database {
 		}
 	}
 
-	public function query($type, $sql, $as_object = FALSE, array $params = NULL)
+	public function query($type, $sql, $as_object)
 	{
 		// Make sure the database is connected
 		$this->_connection or $this->connect();
@@ -192,7 +192,7 @@ class Kohana_Database_MySQL extends Database {
 		if ($type === Database::SELECT)
 		{
 			// Return an iterator of results
-			return new Database_MySQL_Result($result, $sql, $as_object, $params);
+			return new Database_MySQL_Result($result, $sql, $as_object);
 		}
 		elseif ($type === Database::INSERT)
 		{
@@ -278,10 +278,10 @@ class Kohana_Database_MySQL extends Database {
 		return $tables;
 	}
 
-	public function list_columns($table, $like = NULL, $add_prefix = TRUE)
+	public function list_columns($table, $like = NULL)
 	{
 		// Quote the table name
-		$table = ($add_prefix === TRUE) ? $this->quote_table($table) : $table;
+		$table = $this->quote_table($table);
 
 		if (is_string($like))
 		{
@@ -330,6 +330,7 @@ class Kohana_Database_MySQL extends Database {
 						case 'varbinary':
 							$column['character_maximum_length'] = $length;
 						break;
+
 						case 'char':
 						case 'varchar':
 							$column['character_maximum_length'] = $length;
@@ -339,6 +340,7 @@ class Kohana_Database_MySQL extends Database {
 						case 'longtext':
 							$column['collation_name'] = $row['Collation'];
 						break;
+
 						case 'enum':
 						case 'set':
 							$column['collation_name'] = $row['Collation'];
@@ -365,7 +367,7 @@ class Kohana_Database_MySQL extends Database {
 		// Make sure the database is connected
 		$this->_connection or $this->connect();
 
-		if (($value = mysql_real_escape_string( (string) $value, $this->_connection)) === FALSE)
+		if (($value = mysql_real_escape_string((string) $value, $this->_connection)) === FALSE)
 		{
 			throw new Database_Exception(':error',
 				array(':error' => mysql_errno($this->_connection)),

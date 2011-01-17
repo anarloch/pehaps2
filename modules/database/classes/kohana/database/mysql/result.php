@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * MySQL database result.   See [Results](/database/results) for usage and examples.
+ * MySQL database result.
  *
  * @package    Kohana/Database
  * @category   Query/Result
@@ -12,9 +12,9 @@ class Kohana_Database_MySQL_Result extends Database_Result {
 
 	protected $_internal_row = 0;
 
-	public function __construct($result, $sql, $as_object = FALSE, array $params = NULL)
+	public function __construct($result, $sql, $as_object)
 	{
-		parent::__construct($result, $sql, $as_object, $params);
+		parent::__construct($result, $sql, $as_object);
 
 		// Find the number of rows in the result
 		$this->_total_rows = mysql_num_rows($result);
@@ -59,7 +59,7 @@ class Kohana_Database_MySQL_Result extends Database_Result {
 		elseif (is_string($this->_as_object))
 		{
 			// Return an object of given class name
-			return mysql_fetch_object($this->_result, $this->_as_object, $this->_object_params);
+			return mysql_fetch_object($this->_result, $this->_as_object);
 		}
 		else
 		{
